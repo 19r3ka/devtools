@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+    exec zed "$@"
+elif command -v hx >/dev/null 2>&1; then
+    exec hx "$@"
+elif command -v micro >/dev/null 2>&1; then
+    exec micro "$@"
+else
+    exec vim "$@"
+fi
