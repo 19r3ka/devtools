@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Doctor script: verify devtools health
+set -euo pipefail
+
+echo "🔍 Running devtools doctor check..."
+
+for tool in uv fnm podman; do
+    if command -v "$tool" >/dev/null; then
+        echo "✅ $tool is installed and responsive"
+    else
+        echo "❌ $tool not found in PATH"
+    fi
+done
+
+for file in "$HOME/devtools/bin/"*; do
+    [ -f "$file" ] || continue
+    link="$HOME/.local/bin/$(basename "$file")"
+    if [ -L "$link" ]; then
+        echo "✅ Symlink exists for $(basename "$file")"
+    else
+        echo "❌ Missing symlink for $(basename "$file")"
+    fi
+done

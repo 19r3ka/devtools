@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# devtools-sync: ensure ~/devtools/bin scripts are executable and symlinked
+set -euo pipefail
+
+DEVTOOLS_DIR="$HOME/devtools/bin"
+LOCAL_BIN="$HOME/.local/bin"
+
+mkdir -p "$LOCAL_BIN"
+
+for file in "$DEVTOOLS_DIR"/*; do
+    [ -f "$file" ] || continue
+    chmod +x "$file"
+    ln -sf "$file" "$LOCAL_BIN/$(basename "$file")"
+done
